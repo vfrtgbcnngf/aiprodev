@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Engine Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="auth-header">
+        <div id="beforeLogin">
+            <button class="nav-btn" onclick="showAuthModal('signup')">회원가입</button>
+            <button class="nav-btn" onclick="showAuthModal('login')">로그인</button>
+        </div>
+        <div id="afterLogin" style="display:none;">
+            <span id="userEmailDisplay" style="margin-right: 15px; color: #fff;"></span>
+            <button class="nav-btn" onclick="logout()" style="background:#555;">로그아웃</button>
+            <button class="nav-btn" onclick="deleteAccount()" style="background:#ff4d4d;">회원 탈퇴</button>
+        </div>
+    </header>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalTitle">회원가입</h3>
+            <div class="signup-field" style="display:none;">
+                <input type="text" id="name" placeholder="이름">
+                <input type="tel" id="phone" placeholder="전화번호 (010-0000-0000)">
+                <input type="text" id="address" placeholder="주소">
+                <select id="role">
+                    <option value="user">일반 사용자</option>
+                    <option value="developer">개발자</option>
+                    <option value="analyst">데이터 분석가</option>
+                </select>
+            </div>
+            <input type="email" id="email" placeholder="이메일">
+            <input type="password" id="password" placeholder="비밀번호">
+            <button onclick="processAuth()">확인</button>
+            <button onclick="closeAuthModal()" style="background:#444;">취소</button>
+            <p id="authMessage"></p>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <nav class="sidebar">
+            <h2>AI ENGINE</h2>
+            <ul>
+                <li onclick="loadModule('predict')">🚀 AI 운세 분석</li>
+                <li onclick="loadModule('generate')">🤖 제미나이 챗봇</li>
+                <li onclick="loadModule('ml-engine')">📊 딥러닝 & 머신러닝</li>
+                <li onclick="loadModule('calendar')" style="cursor:pointer; color:#00d4ff;">📅 AI 캘린더</li>
+                <li onclick="loadModule('image-analyzer')" style="cursor:pointer; color:#ffcc00;">🖼️ 이미지 분석 및 비평</li
+            </ul>
+        </nav>
+        
+        <main id="content" class="main-content">
+            
+        </main>
+        
+    </div>
+
+    <div id="dateModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="selectedDateTitle"></h3>
+            <textarea id="aiCalendarInput"></textarea>
+            
+            <!-- 가로 정렬된 버튼들 -->
+            <div class="modal-buttons">
+                <button onclick="saveSchedule()">저장</button>
+                <button onclick="deleteSchedule()" style="background:#555;">삭제</button>
+                <button onclick="closeDateModal()">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

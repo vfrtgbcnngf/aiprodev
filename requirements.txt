@@ -1,0 +1,11 @@
+uvicorn
+fastapi
+pymongo
+jinja2
+google-genai
+motor
+passlib
+holidays
+opencv-python-headless
+pytesseract
+pandas

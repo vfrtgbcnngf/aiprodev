@@ -1,0 +1,417 @@
+/* 1. 기본 설정 */
+body { background: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom:100px;}
+.app-container { display: flex; height: 100vh; }
+
+/* 2. 사이드바 */
+.sidebar { width: 260px; background: #111; padding: 40px 20px; border-right: 1px solid #222; }
+.sidebar ul { list-style: none; padding: 0; margin: 0; }
+.sidebar li { padding: 18px 20px; cursor: pointer; color: #aaa; transition: 0.3s; border-radius: 8px; }
+.sidebar li:hover { background: #222; color: #00f2fe; }
+
+/* 3. 메인 콘텐츠 영역 */
+.main-content { 
+    flex: 1; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    padding: 20px; 
+    padding-top: 90px; 
+}
+.dashboard-panel { 
+    background: #121212; border: 1px solid #333; padding: 40px; 
+    border-radius: 20px; width: 100%; max-width: 700px; 
+    animation: fadeIn 0.5s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+
+/* 4. 통합 모달 스타일 (충돌 방지) */
+.modal-overlay {
+    display: none; /* 기본 숨김 */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+.modal-overlay.show { display: flex !important; }
+
+.modal-content {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    border: 1px solid #333;
+}
+.modal-content input, .modal-content select, .modal-content textarea {
+    width: 100%; padding: 14px; margin: 10px 0;
+    background: #000; border: 1px solid #444; color: white;
+    border-radius: 8px; box-sizing: border-box;
+}
+.modal-content button {
+    width: 100%; padding: 12px; margin-top: 10px;
+    background: #00f2fe; border: none; cursor: pointer; font-weight: bold; border-radius: 5px;
+}
+
+/* 5. 캘린더 스타일 */
+.calendar-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #1e1e1e; border-radius: 8px; margin-bottom: 10px; }
+.calendar-grid-header { 
+    display: grid; grid-template-columns: repeat(7, 1fr); 
+    text-align: center; font-weight: bold; color: #888; margin-bottom: 10px; 
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.calendar-day {
+    height: 90px;
+    background: #2a2a2a;
+    display: flex;
+    flex-direction: column; /* 세로로 쌓기 */
+    align-items: center;
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    overflow: hidden; /* 글자가 넘치면 숨김 */
+}
+.calendar-day:hover { background: #444; }
+
+/* 6. 헤더 */
+.auth-header { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+.auth-header button { 
+    background: transparent; color: #888; border: 1px solid #444; 
+    padding: 8px 15px; cursor: pointer; border-radius: 5px; margin-left: 10px; 
+}
+.auth-header button:hover { color: #00f2fe; border-color: #00f2fe; }
+
+
+
+/* 기본 날짜 스타일 보완 */
+.modal-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 사이 간격 */
+    margin-top: 20px;
+}
+.modal-buttons button {
+    flex: 1; /* 버튼 너비 균등 분할 */
+    padding: 10px;
+}
+
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+
+#calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7열 배치 */
+    gap: 10px; /* 칸 사이 간격 */
+    margin-top: 10px;
+    width: 100%;
+}
+
+
+.calendar-day:hover { border: 1px solid #00f2fe; }
+
+.calendar-grid-header .sun { color: #ff4d4d; } /* 일요일 글자 빨간색 */
+.calendar-grid-header .sat { color: #ff4d4d; } /* 토요일 글자 빨간색 */
+.sun .day-number {
+    color: #ff4d4d !important;
+}
+.sun .holiday-text {
+    color: #ff4d4d !important;
+}
+.schedule-text { font-size: 0.7em; color: #00f2fe; margin-top: 5px; }
+.sat .day-number{ color: #00d4ff !important; }
+.holiday-name {
+    font-size: 0.7em;
+    color: #ff4d4d;
+    margin-top: 2px;
+}
+.dot { height: 6px; width: 6px; background: #00f2fe; border-radius: 50%; margin: 2px auto; }
+
+#chatPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 600px; /* 너무 넓어지지 않게 제한 */
+    margin: 0 auto;   /* 부모 컨테이너 내에서 중앙 정렬 */
+    padding: 30px;
+    background: #121212;
+    border: 1px solid #333;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.chat-title {
+    color: #00f2fe;
+    margin-bottom: 20px;
+    text-align: center; /* 제목 중앙 정렬 */
+}
+
+.chat-box {
+    height: 400px; /* 채팅 영역 높이 확보 */
+    overflow-y: auto;
+    background: #000;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+}
+
+textarea#aiIn {
+    flex: 1;
+    height: 50px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #111;
+    border: 1px solid #444;
+    color: #fff;
+    resize: none;
+}
+
+.ai-action-btn {
+    padding: 0 25px;
+    background: #00f2fe;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ai-action-btn:hover {
+    background: #00d4ff;
+}
+
+/* 챗봇 대화창 내부 스타일 (말풍선) */
+.chat-message {
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 18px; /* 모서리를 둥글게 */
+    max-width: 80%;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.chat-message.user {
+    background: #00f2fe;
+    color: #000;
+    text-align: left;
+    margin-left: auto; /* 우측 정렬 */
+    border-bottom-right-radius: 4px; /* 말풍선 꼬리 느낌 */
+}
+
+.ai-toast {
+    position: fixed !important;
+    bottom: 90px !important;  /* 봇 아이콘 위쪽 */
+    right: 30px !important;   /* 오른쪽 하단 */
+    z-index: 10000 !important;
+    background: #2a2a2a;
+    border: 2px solid #00f2fe;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    width: 260px;             /* 가로폭을 고정하여 화면 전체를 덮지 않게 함 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.chat-message.bot {
+    background: #2a2a2a;
+    color: #fff;
+    text-align: left;
+    margin-right: auto; /* 좌측 정렬 */
+    border-bottom-left-radius: 4px;
+}
+
+/* 전송 버튼 스타일 */
+#aiAssistantFixed {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    width: 60px;
+    height: 60px;
+    background: #00f2fe;
+    border-radius: 50%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    z-index: 99999 !important;
+}
+
+/* 말풍선: 아이콘 바로 위로 배치 */
+#aiToast {
+    position: fixed !important;
+    bottom: 100px !important;
+    right: 30px !important;
+    background: #2a2a2a;
+    border: 2px solid #00f2fe;
+    color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    z-index: 99998 !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    max-width: 280px;
+}
+
+.dashboard-panel {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+/* 입력창 스타일 */
+.dashboard-panel input {
+    background: #333;
+    border: 1px solid #444;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-right: 10px;
+    outline: none;
+}
+
+/* 운세 버튼 스타일 - 그라데이션 추가 */
+.send-btn {
+    background: linear-gradient(90deg, #00f2fe, #4facfe);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+}
+
+/* 결과 영역 스타일 */
+.fortune-box {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #e0e0e0;
+    padding: 20px;
+    border-left: 4px solid #00f2fe;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    gap: 15px;               /* 버튼 사이 간격 */
+    margin: 25px 0;
+}
+
+/* 버튼 스타일 균일화 */
+.button-group .nav-btn {
+    flex: 1;                 /* 버튼 너비를 동일하게 */
+    max-width: 200px;        /* 너무 커지지 않게 */
+    padding: 12px 20px;
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button-group .nav-btn:hover {
+    background: #00f2fe;
+    color: #000;
+}
+
+/* 결과창 박스 디자인 */
+.result-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: #111;
+    border-radius: 10px;
+    border-left: 5px solid #00f2fe;
+    min-height: 100px;
+}
+
+/* 업로드 영역 - 텍스트박스 스타일 */
+.upload-container {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* 하단 3버튼 카드 스타일 */
+.action-card-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.action-card {
+    padding: 20px;
+    background: #252525;
+    border: 1px solid #444;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.action-card:hover {
+    border-color: #00f2fe;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
+}
+
+.action-card span {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.result-card {
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+select#filterSelect {
+    padding: 10px;
+    border-radius: 8px;
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    cursor: pointer;
+}
+
+.module-section {
+    padding: 30px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    color: white;
+}
+
+.action-btn {
+    background: #00d4ff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
