@@ -4,9 +4,19 @@ import webbrowser
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware  # <-- [추가] CORS 미들웨어 임포트
 from app.routes import items, auth, calendar, fortune, prediction
 
 app = FastAPI()
+
+# --- [추가] CORS 설정 (브라우저 차단 방지) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 도메인 허용 (실제 운영 시 특정 프론트 도메인만 지정 가능)
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, DELETE 등 모든 HTTP 메서드 허용
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 # 정적 파일 경로 설정
 static_dir = os.path.join(os.path.dirname(__file__), "static")
