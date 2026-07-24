@@ -12,3 +12,4 @@ pandas
 openai
 xlsxwriter
 python-multipart
+argon2-cffi
