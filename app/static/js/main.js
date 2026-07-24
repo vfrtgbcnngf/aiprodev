@@ -40,8 +40,9 @@ function closeAuthModal() {
 
 // 2. 인증 처리 (회원가입/로그인)
 async function processAuth() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    // [수정 1] 이메일 공백 제거 및 소문자 정규화
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const password = document.getElementById('password').value.trim();
 
     if (!email || !password) {
         document.getElementById('authMessage').innerText = "이메일과 비밀번호는 필수 입력 항목입니다.";
@@ -49,13 +50,6 @@ async function processAuth() {
     }
 
     let payload = { email, password };
-    
-    if (currentMode === 'signup') {
-        alert("회원가입 완료! 이제 로그인해주세요.");
-        localStorage.removeItem("user"); // 가입 후엔 정보 초기화
-        closeAuthModal();
-    }
-
     const endpoint = (currentMode === 'login') ? '/auth/login' : '/auth/signup';
 
     try {
@@ -64,19 +58,23 @@ async function processAuth() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        
+
         const data = await res.json();
         const msgBox = document.getElementById('authMessage');
-        
+
         if (res.ok) {
             msgBox.style.color = "#00f2fe";
-            msgBox.innerText = currentMode === 'login' ? "로그인 성공!" : "회원가입 완료!";
-            
+
             if (currentMode === 'login') {
+                msgBox.innerText = "로그인 성공!";
                 localStorage.setItem("user", JSON.stringify({ email: email }));
-                location.reload(); // 로그인 즉시 UI 갱신
+                location.reload(); // 로그인 성공 시 페이지 갱신
             } else {
-                setTimeout(closeAuthModal, 1500);
+                // [수정 2] 서버 성공 응답 수신 후에만 회원가입 완료 안내 처리
+                msgBox.innerText = "회원가입 완료! 로그인 모달로 이동합니다.";
+                setTimeout(() => {
+                    showAuthModal('login'); // 회원가입 후 로그인 모달로 자동 전환
+                }, 1200);
             }
         } else {
             msgBox.style.color = "#ff4d4d";
