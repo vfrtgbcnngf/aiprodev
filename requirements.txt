@@ -11,4 +11,4 @@ pytesseract
 pandas
 openai
 xlsxwriter
-easyocr
+python-multipart
