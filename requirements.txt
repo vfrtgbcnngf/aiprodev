@@ -9,3 +9,4 @@ holidays
 opencv-python-headless
 pytesseract
 pandas
+openai
