@@ -1,8 +1,9 @@
 import os
 import uvicorn
 import webbrowser
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from app.routes import items, auth, calendar, fortune, prediction
 
 app = FastAPI()
@@ -10,6 +11,15 @@ app = FastAPI()
 # 정적 파일 경로 설정
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+# HTML 템플릿 폴더 경로 설정 (app/templates)
+templates_dir = os.path.join(os.path.dirname(__file__), "templates")
+templates = Jinja2Templates(directory=templates_dir)
+
+# 루트('/') 접속 시 index.html을 화면에 렌더링하는 코드 추가
+@app.get("/")
+def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 # 라우터 등록
 app.include_router(items.router)
